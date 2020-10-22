@@ -26,9 +26,11 @@ struct TVShow: Hashable, Codable {
         case id, name
         case posterPath = "poster_path"
         case backdropPath = "backdrop_path"
-
     }
+}
 
+struct TVShowDetails: Hashable, Codable {
+    
 }
 
 //struct Trending: TVShow{

@@ -41,8 +41,9 @@ class TrendingViewController: UIViewController {
     }
     
     enum HomeSection: String, CaseIterable {
-        case Trending
-        case Popular
+        case Trending = "Trending"
+        case PopularToday = "Popular today"
+        case PopularThisWeek = "Popular this week"
     }
     
     
@@ -210,6 +211,12 @@ extension TrendingViewController {
 extension TrendingViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        let loadVC = TVShowDetailsViewController()
+        loadVC.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(loadVC, animated: true)
+
+//        self.present(loadVC, animated: true)
+        
     }
 }
     

@@ -1,17 +1,19 @@
 //
-//  SearchViewController.swift
+//  TVShowDetailsViewController.swift
 //  TVLibrary
 //
-//  Created by Karol Harasim on 18/05/2020.
+//  Created by Karol Harasim on 15/10/2020.
 //  Copyright © 2020 Karol Harasim. All rights reserved.
 //
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class TVShowDetailsViewController: UIViewController {
+    var TVShowDetails: TVShowDetails!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .blue
 
         // Do any additional setup after loading the view.
     }

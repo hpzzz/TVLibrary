@@ -15,18 +15,25 @@ class ResultArray: Codable {
 
 class SearchResult: Codable {
     let originalName: String
-       let genreIDS: [Int]
-       let name: String
-       let popularity: Double
-       let originCountry: [String]
-       let voteCount: Int
-       let firstAirDate: String
-       let backdropPath: String?
-       let originalLanguage: OriginalLanguage
-       let id: Int
-       let voteAverage: Double
-       let overview: String
-       let posterPath: String?
+    let genreIDS: [Int]
+    let name: String
+    let popularity: Double
+    let originCountry: [String]
+    let voteCount: Int
+    let firstAirDate: String
+    let backdropPath: String?
+    let originalLanguage: OriginalLanguage
+    let id: Int
+    let voteAverage: Double
+    let overview: String
+    let posterPath: String?
+    var image: String {
+        if let poster = posterPath {
+            return "https://image.tmdb.org/t/p/w185\(poster)"
+        } else {
+            return ""
+        }
+    }
     
     enum CodingKeys: String, CodingKey {
         case originalName = "original_name"

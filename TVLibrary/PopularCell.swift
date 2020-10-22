@@ -28,10 +28,10 @@ class PopularCell: UICollectionViewCell, SelfConfiguringCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .secondaryLabel
-//        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 20, weight: .bold))
+        //        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 20, weight: .bold))
         label.numberOfLines = 2
         return label
-     }()
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,25 +41,25 @@ class PopularCell: UICollectionViewCell, SelfConfiguringCell {
         super.init(coder: coder)
     }
     
-        func configure(with TVShow: TVShow) {
-            titleLabel.text = TVShow.name
-            if let smallURL = URL(string: "https://image.tmdb.org/t/p/w300/\(TVShow.posterPath)") {
-                imageView.loadImageWithUrl(smallURL)
-            }
-            contentView.addSubview(imageView)
-            contentView.addSubview(titleLabel)
-            
-            NSLayoutConstraint.activate([
-                imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                imageView.heightAnchor.constraint(equalTo: self.widthAnchor,multiplier: (3/2)),
-                
-                titleLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor),
-                titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                titleLabel.heightAnchor.constraint(equalToConstant: 50)
-                ])
+    func configure(with TVShow: TVShow) {
+        titleLabel.text = TVShow.name
+        if let smallURL = URL(string: "https://image.tmdb.org/t/p/w300/\(TVShow.posterPath)") {
+            imageView.loadImageWithUrl(smallURL)
         }
+        contentView.addSubview(imageView)
+        contentView.addSubview(titleLabel)
+        
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.heightAnchor.constraint(equalTo: self.widthAnchor,multiplier: (3/2)),
+            
+            titleLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
     
 }

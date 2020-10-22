@@ -10,4 +10,11 @@ import Foundation
 
 class Search {
     
+    enum State {
+        case notSearchedYet
+        case loading
+        case noResults
+        case results([SearchResult])
+    }
+    
 }

@@ -29,7 +29,7 @@ class SearchResult: Codable {
     let posterPath: String?
     var image: String {
         if let poster = posterPath {
-            return "https://image.tmdb.org/t/p/w185\(poster)"
+            return "https://image.tmdb.org/t/p/w92\(poster)"
         } else {
             return ""
         }

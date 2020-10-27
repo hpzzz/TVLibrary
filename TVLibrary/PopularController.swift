@@ -43,7 +43,7 @@ class PopularController {
     func parse(data: Data) -> [TVShow] {
         do {
             let decoder = JSONDecoder()
-            let result = try decoder.decode(TrendingResult.self, from: data)
+            let result = try decoder.decode(PopularResult.self, from: data)
             return result.results
         } catch {
             print("JSONError")

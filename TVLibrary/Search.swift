@@ -32,9 +32,12 @@ class Search {
             dataTask = session.dataTask(with: url, completionHandler: { (data, response, error) in
                 var newState = State.notSearchedYet
                 var success = false
-                if let error = error as NSError?, error.code == -999 { return }
+                if let error = error as NSError?, error.code == -999 {
+                    newState = .noResults
+                    return
+                }
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data = data {
-                    var searchResults = self.parse(data: data)
+                    let searchResults = self.parse(data: data)
                     if searchResults.isEmpty {
                         newState = .noResults
                     } else {

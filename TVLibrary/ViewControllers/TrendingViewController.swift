@@ -68,8 +68,8 @@ class TrendingViewController: UIViewController {
         let dispatchGroup = DispatchGroup()
 
         dispatchGroup.enter()   // <<---
-        trending.getTrending(for: .day) { succes in
-            if !succes {
+        trending.getTrending(for: .day) { success in
+            if !success {
                 print("Bad shit")
             } else {
                 DispatchQueue.main.async {
@@ -92,7 +92,9 @@ class TrendingViewController: UIViewController {
         dispatchGroup.notify(queue: .main) {
             self.configureHierarchy()
             self.configureDataSource()
+            self.view.setNeedsLayout()
             self.reloadData()
+
         }
     }
         }

@@ -20,10 +20,11 @@ class SearchViewController: UIViewController {
         
         self.searchController = searchControllerWith(searchResultsController: nil)
         self.navigationItem.titleView = self.searchController.searchBar
-        
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Click me", style: .plain, target: nil, action: #selector(buttonClicked))
         setupTableView()
         
     }
+    
     
     func setupTableView() {
         view.addSubview(tableView)
@@ -36,14 +37,17 @@ class SearchViewController: UIViewController {
         tableView.rowHeight = 110
         var cellNib = UINib(nibName: TableViewCellIdentifiers.searchResultCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.searchResultCell)
-
+        cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
+        cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
         
     }
     
     struct TableViewCellIdentifiers {
         static let searchResultCell = "SearchResultCell"
-        static let nothingFoundCell = "nothingFoundCell"
-        static let loadingCell = "loadingCell"
+        static let nothingFoundCell = "NothingFoundCell"
+        static let loadingCell = "LoadingCell"
     }
     
     override func viewDidLoad() {
@@ -86,11 +90,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         case .notSearchedYet:
             return 0
         case .loading:
-            return 0
+            return 1
         case .noResults:
-            return 0
+            return 1
         case .results(let list):
-            print(list.count)
             return list.count
 
     }
@@ -118,11 +121,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.loadingCell, for: indexPath)
             let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
             spinner.startAnimating()
-//            return cell
-            return UITableViewCell()
+            return cell
+            
         case .noResults:
-//            return tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.nothingFoundCell, for: indexPath)
-            return UITableViewCell()
+            return tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.nothingFoundCell, for: indexPath)
+            
         case .results(let list):
             let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
             let searchResult = list[indexPath.row]

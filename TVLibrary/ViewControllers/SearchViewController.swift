@@ -13,10 +13,16 @@ class SearchViewController: UIViewController {
     var tableView = UITableView()
     lazy var searchBar: UISearchBar = UISearchBar()
     
+    var searchController: UISearchController!
+    
     override func loadView() {
         super.loadView()
         
+        self.searchController = searchControllerWith(searchResultsController: nil)
+        self.navigationItem.titleView = self.searchController.searchBar
+        
         setupTableView()
+        
     }
     
     func setupTableView() {
@@ -26,10 +32,9 @@ class SearchViewController: UIViewController {
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        
-        var cellNib = UINib(nibName: TableViewCellIdentifiers.searchResultCell, bundle: nil)
-        
-        tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.searchResultCell)
+        tableView.dataSource = self
+        tableView.register(SearchResultCell.self, forCellReuseIdentifier: TableViewCellIdentifiers.searchResultCell)
+
         
     }
     
@@ -38,53 +43,65 @@ class SearchViewController: UIViewController {
         static let nothingFoundCell = "nothingFoundCell"
         static let loadingCell = "loadingCell"
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        searchBar.searchBarStyle = UISearchBar.Style.prominent
-        searchBar.placeholder = " Search..."
-        searchBar.sizeToFit()
-        searchBar.isTranslucent = false
-        searchBar.backgroundImage = UIImage()
-        searchBar.delegate = self
-        navigationItem.titleView = searchBar
 
         // Do any additional setup after loading the view.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
-extension SearchViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        func searchBarButtonClicked(_ searchBar: UISearchBar) {
-            performSearch()
+
+
+extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        search.performSearch(for: text) { (success) in
+            if !success {
+                print("Oh nonono")
+            }
+            self.tableView.reloadData()
         }
     }
     
-    func performSearch() {
-        // TODO: elo
+    func searchControllerWith(searchResultsController: UIViewController?) -> UISearchController {
+
+        let searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController.delegate = self
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.hidesNavigationBarDuringPresentation = false
+
+        return searchController
     }
+    
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        switch search.state {
+        case .notSearchedYet:
+            return 0
+        case .loading:
+            return 0
+        case .noResults:
+            return 0
+        case .results(let list):
+            print(list.count)
+            return list.count
+
+    }
+
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        return indexPath
+        switch search.state {
+        case .loading, .noResults, .notSearchedYet:
+            return nil
+        case .results:
+            return indexPath
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -92,6 +109,26 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        switch search.state {
+        case .notSearchedYet:
+            fatalError("You shouldn't het there")
+        case .loading:
+            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.loadingCell, for: indexPath)
+            let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
+            spinner.startAnimating()
+//            return cell
+            return UITableViewCell()
+        case .noResults:
+//            return tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.nothingFoundCell, for: indexPath)
+            return UITableViewCell()
+        case .results(let list):
+            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
+            let searchResult = list[indexPath.row]
+            print(searchResult.name)
+            cell.configure(for: searchResult)
+            return cell
+        }
+
     }
 }
+

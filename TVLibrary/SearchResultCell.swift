@@ -49,22 +49,23 @@ class SearchResultCell: UITableViewCell {
             downloadTask = posterImageView.loadImage(url: smallURL)
         }
         
-        posterImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        posterImageView.rightAnchor.constraint(equalTo: self.nameLabel.leftAnchor).isActive = true
+        posterImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 16).isActive = true
+        posterImageView.rightAnchor.constraint(equalTo: self.nameLabel.leftAnchor, constant: 8).isActive = true
         posterImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
         posterImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        posterImageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        posterImageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
-        nameLabel.leftAnchor.constraint(equalTo: posterImageView.leftAnchor).isActive = true
-        nameLabel.rightAnchor.constraint(equalTo: self.voteAverageLabel.leftAnchor).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: posterImageView.rightAnchor).isActive = true
+        nameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         nameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        nameLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+//        nameLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
         
-        voteAverageLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor).isActive = true
+        voteAverageLabel.leftAnchor.constraint(equalTo: posterImageView.rightAnchor).isActive = true
         voteAverageLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
-        voteAverageLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+//        voteAverageLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor).isActive = true
         voteAverageLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
         
-      
     }
     
     required init?(coder aDecoder: NSCoder) {

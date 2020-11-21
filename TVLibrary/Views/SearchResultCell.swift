@@ -31,7 +31,7 @@ class SearchResultCell: UITableViewCell {
         }
 
         nameLabel.text = result.name
-        voteAverageLabel.text = String(result.voteAverage)
+        voteAverageLabel.text = "★ " + String(result.voteAverage)
         
 
         posterImageView.image = UIImage(named: "Placeholder")

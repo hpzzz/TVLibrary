@@ -65,7 +65,6 @@ class Search {
         do {
             let decoder = JSONDecoder()
             let result = try decoder.decode(ResultArray.self, from: data)
-            print(result.total_results)
             return result.results
         } catch {
             print("JSON error \(error)")

@@ -20,8 +20,9 @@ class SearchViewController: UIViewController {
         
         self.searchController = searchControllerWith(searchResultsController: nil)
         self.navigationItem.titleView = self.searchController.searchBar
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Click me", style: .plain, target: nil, action: #selector(buttonClicked))
+        self.searchController.obscuresBackgroundDuringPresentation = false
         setupTableView()
+
         
     }
     
@@ -33,8 +34,10 @@ class SearchViewController: UIViewController {
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        tableView.keyboardDismissMode = .onDrag
         tableView.dataSource = self
         tableView.rowHeight = 110
+        tableView.delegate = self
         var cellNib = UINib(nibName: TableViewCellIdentifiers.searchResultCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.searchResultCell)
         cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil)
@@ -59,7 +62,6 @@ class SearchViewController: UIViewController {
 }
 
 
-
 extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
@@ -68,20 +70,20 @@ extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdat
                 print("Oh nonono")
             }
             self.tableView.reloadData()
+            print(self.searchController.isActive)
         }
     }
-    
+
     func searchControllerWith(searchResultsController: UIViewController?) -> UISearchController {
 
         let searchController = UISearchController(searchResultsController: searchResultsController)
         searchController.delegate = self
+        searchController.isActive = false
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.hidesNavigationBarDuringPresentation = false
-
         return searchController
     }
-    
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
@@ -89,9 +91,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         switch search.state {
         case .notSearchedYet:
             return 0
-        case .loading:
-            return 1
-        case .noResults:
+        case .loading, .noResults:
             return 1
         case .results(let list):
             return list.count
@@ -110,7 +110,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        let detailsViewController = TVShowDetailsViewController()
+        self.navigationController?.pushViewController(detailsViewController, animated: true)
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -129,7 +131,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         case .results(let list):
             let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
             let searchResult = list[indexPath.row]
-            print(searchResult.name)
             cell.configure(for: searchResult)
             return cell
         }

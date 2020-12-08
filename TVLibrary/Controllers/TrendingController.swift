@@ -11,7 +11,6 @@ import Foundation
 class TrendingController {
     
     var dataTask: URLSessionDataTask?
-    
     var trendingTVShows: [TVShow] = []
     
     enum Period: String {

@@ -10,6 +10,33 @@ import Foundation
 
 typealias SearchComplete = (Bool) -> Void
 
+struct SearchTVApiResponse {
+    let page: Int
+    let numberOfResults: Int
+    let numberOfPages: Int
+    let tvShows: [SearchResult]
+}
+
+extension SearchTVApiResponse: Decodable {
+    
+    private enum MovieApiResponseCodingKeys: String, CodingKey {
+        case page
+        case numberOfResults = "total_results"
+        case numberOfPages = "total_pages"
+        case tvShows = "results"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: MovieApiResponseCodingKeys.self)
+        
+        page = try container.decode(Int.self, forKey: .page)
+        numberOfResults = try container.decode(Int.self, forKey: .numberOfResults)
+        numberOfPages = try container.decode(Int.self, forKey: .numberOfPages)
+        tvShows = try container.decode([SearchResult].self, forKey: .tvShows)
+        
+    }
+}
+
 class Search {
     
     enum State {

@@ -9,23 +9,29 @@
 import UIKit
 
 class SearchViewController: UIViewController {
+    
+    var networkManager: NetworkManager!
+    
     private let search = Search()
     var tableView = UITableView()
     lazy var searchBar: UISearchBar = UISearchBar()
-    
+    var searchResult: SearchTVApiResponse?
     var searchController: UISearchController!
     
     override func loadView() {
         super.loadView()
         
         self.searchController = searchControllerWith(searchResultsController: nil)
-        self.navigationItem.titleView = self.searchController.searchBar
         self.searchController.obscuresBackgroundDuringPresentation = false
+        self.navigationItem.titleView = self.searchController.searchBar
         setupTableView()
-
-        
     }
     
+    struct TableViewCellIdentifiers {
+        static let searchResultCell = "SearchResultCell"
+        static let nothingFoundCell = "NothingFoundCell"
+        static let loadingCell = "LoadingCell"
+    }
     
     func setupTableView() {
         view.addSubview(tableView)
@@ -44,38 +50,43 @@ class SearchViewController: UIViewController {
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
         cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
-        
-    }
-    
-    struct TableViewCellIdentifiers {
-        static let searchResultCell = "SearchResultCell"
-        static let nothingFoundCell = "NothingFoundCell"
-        static let loadingCell = "LoadingCell"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        networkManager = NetworkManager()
+        
         // Do any additional setup after loading the view.
     }
-
+    
 }
 
 
 extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-        search.performSearch(for: text) { (success) in
-            if !success {
-                print("Oh nonono")
+//        search.performSearch(for: text) { (success) in
+//            if !success {
+//                print("Couldn't perform search")
+//            }
+//            self.tableView.reloadData()
+//        }
+        networkManager.getSearchTV(page: 1, query: text){  [weak self] shows, error in
+            if error == nil {
+                self?.searchResult = shows
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                    print("essa")
+//                    self.Indicator.stopAnimating()
+                }
             }
-            self.tableView.reloadData()
-            print(self.searchController.isActive)
+            
         }
+        
     }
-
+    
     func searchControllerWith(searchResultsController: UIViewController?) -> UISearchController {
-
+        
         let searchController = UISearchController(searchResultsController: searchResultsController)
         searchController.delegate = self
         searchController.isActive = false
@@ -88,53 +99,65 @@ extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdat
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch search.state {
-        case .notSearchedYet:
-            return 0
-        case .loading, .noResults:
-            return 1
-        case .results(let list):
-            return list.count
-
-    }
-
+        guard let tvShows = searchResult?.tvShows else { return 0 }
+        guard tvShows.count > 0 else { return 1 }
+        return tvShows.count
+//        switch search.state {
+//        case .notSearchedYet:
+//            return 0
+//        case .loading, .noResults:
+//            return 1
+//        case .results(let list):
+//            return list.count
+//        }
+        
     }
     
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        switch search.state {
-        case .loading, .noResults, .notSearchedYet:
-            return nil
-        case .results:
-            return indexPath
-        }
-    }
+//    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+//        switch search.state {
+//        case .loading, .noResults, .notSearchedYet:
+//            return nil
+//        case .results:
+//            return indexPath
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailsViewController = TVShowDetailsViewController()
+        let detailsViewController = DetailsViewController()
         self.navigationController?.pushViewController(detailsViewController, animated: true)
-
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch search.state {
-        case .notSearchedYet:
-            fatalError("You shouldn't het there")
-        case .loading:
-            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.loadingCell, for: indexPath)
-            let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
-            spinner.startAnimating()
-            return cell
-            
-        case .noResults:
+//        switch search.state {
+//        case .notSearchedYet:
+//            fatalError("You shouldn't be there")
+//        case .loading:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.loadingCell, for: indexPath)
+//            let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
+//            spinner.startAnimating()
+//            return cell
+//            
+//        case .noResults:
+//            return tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.nothingFoundCell, for: indexPath)
+//            
+//        case .results(let list):
+//            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
+//            let searchResult = list[indexPath.row]
+//            cell.configure(for: searchResult)
+//            return cell
+//        }
+        
+        guard let shows = searchResult?.tvShows else { fatalError("Your shouldnt be there")}
+        if shows.count == 0 {
             return tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.nothingFoundCell, for: indexPath)
-            
-        case .results(let list):
+        } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
-            let searchResult = list[indexPath.row]
-            cell.configure(for: searchResult)
+            let show = shows[indexPath.row]
+            cell.configure(for: show)
             return cell
         }
-
+            
     }
 }
 

@@ -56,7 +56,6 @@ class TrendingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationController?.navigationBar.prefersLargeTitles = true
         let apiKey = "73622f65fd4eb79f37924c199636fe02"
         downloadDetails(trending: trending, popular: popular)
             }
@@ -213,7 +212,7 @@ extension TrendingViewController {
 extension TrendingViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let loadVC = TVShowDetailsViewController()
+        let loadVC = DetailsViewController()
         loadVC.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(loadVC, animated: true)
 

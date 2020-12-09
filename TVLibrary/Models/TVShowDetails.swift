@@ -9,7 +9,15 @@
 import Foundation
 
 struct TVShowDetailsApiResponse: Decodable {
-    let backdropPath: String
+    let backdropPath: String?
+    var image: String {
+        if let backdrop = backdropPath {
+            return "https://image.tmdb.org/t/p/w500\(backdrop)"
+        } else {
+            return ""
+        }
+    }
+        
     let episodeRunTime: [Int]
     let firstAirDate: String
     let genres: [Genre]
@@ -25,7 +33,7 @@ struct TVShowDetailsApiResponse: Decodable {
     let originCountry: [String]
     let originalLanguage, originalName, overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let seasons: [Season]
     let status, tagline, type: String
     let voteAverage: Double
@@ -65,7 +73,7 @@ struct LastorNextEpisodeToAir: Codable {
     let episodeNumber, id: Int
     let name, overview, productionCode: String
     let seasonNumber: Int
-    let stillPath: String
+    let stillPath: String?
     let voteAverage: Double
     let voteCount: Int
 
@@ -83,7 +91,8 @@ struct LastorNextEpisodeToAir: Codable {
 struct Season: Codable {
     let airDate: String
     let episodeCount, id: Int
-    let name, overview, posterPath: String
+    let name, overview: String
+    let posterPath: String?
     let seasonNumber: Int
 
     enum CodingKeys: String, CodingKey {
@@ -95,22 +104,3 @@ struct Season: Codable {
     }
 }
 
-//extension SearchTVApiResponse: Decodable {
-
-//    private enum MovieApiResponseCodingKeys: String, CodingKey {
-//        case page
-//        case numberOfResults = "total_results"
-//        case numberOfPages = "total_pages"
-//        case tvShows = "results"
-//    }
-//
-//    init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: MovieApiResponseCodingKeys.self)
-//
-//        page = try container.decode(Int.self, forKey: .page)
-//        numberOfResults = try container.decode(Int.self, forKey: .numberOfResults)
-//        numberOfPages = try container.decode(Int.self, forKey: .numberOfPages)
-//        tvShows = try container.decode([SearchResult].self, forKey: .tvShows)
-//
-//    }
-//}

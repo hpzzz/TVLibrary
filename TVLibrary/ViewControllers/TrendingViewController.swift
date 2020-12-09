@@ -215,9 +215,6 @@ extension TrendingViewController: UICollectionViewDelegate {
         let loadVC = DetailsViewController()
         loadVC.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(loadVC, animated: true)
-
-//        self.present(loadVC, animated: true)
-        
     }
 }
     

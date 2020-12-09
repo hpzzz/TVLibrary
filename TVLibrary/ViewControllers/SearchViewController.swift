@@ -10,6 +10,7 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+    var searchTask: DispatchWorkItem?
     var networkManager: NetworkManager!
     var tableView = UITableView()
     lazy var searchBar: UISearchBar = UISearchBar()
@@ -91,16 +92,29 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
+        
         guard let text = searchController.searchBar.text else { return }
         if text.isEmpty {
             return
         }
-        networkManager.getSearchTV(page: 1, query: text){  [weak self] shows, error in
-                DispatchQueue.main.async {
-                    self?.searchResult = shows
-                    self?.tableView.reloadData()
-                }
+        // Cancel previous task if any
+        self.searchTask?.cancel()
+
+        // Replace previous task with a new one
+        let task = DispatchWorkItem { [weak self] in
+            self?.networkManager.getSearchTV(page: 1, query: text){  [weak self] shows, error in
+                    DispatchQueue.main.async {
+                        self?.searchResult = shows
+                        self?.tableView.reloadData()
+                    }
+            }
         }
+        self.searchTask = task
+
+        // Execute task in 0.75 seconds (if not cancelled !)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: task)
+        
+
         
     }
     

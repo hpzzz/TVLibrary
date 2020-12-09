@@ -17,6 +17,8 @@
 		1B196705257FB7C600478257 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B196704257FB7C600478257 /* Router.swift */; };
 		1B19670A25800F8800478257 /* TVShowDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19670925800F8800478257 /* TVShowDetails.swift */; };
 		1B1967112580473800478257 /* TVShowSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1967102580473800478257 /* TVShowSearch.swift */; };
+		1B1967192580E59600478257 /* DetailsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1967182580E59600478257 /* DetailsScrollView.swift */; };
+		1B19671C25811D7300478257 /* UIImage+PinToEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19671B25811D7200478257 /* UIImage+PinToEdge.swift */; };
 		1B1F0F5E246722CA005831EC /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1F0F5D246722CA005831EC /* SectionHeader.swift */; };
 		1B862FE72462F07700C3694A /* PopularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B862FE62462F07700C3694A /* PopularCell.swift */; };
 		1B89C3BE243DFF3000131D37 /* TrendingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89C3BD243DFF3000131D37 /* TrendingController.swift */; };
@@ -53,6 +55,8 @@
 		1B196704257FB7C600478257 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		1B19670925800F8800478257 /* TVShowDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowDetails.swift; sourceTree = "<group>"; };
 		1B1967102580473800478257 /* TVShowSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowSearch.swift; sourceTree = "<group>"; };
+		1B1967182580E59600478257 /* DetailsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsScrollView.swift; sourceTree = "<group>"; };
+		1B19671B25811D7200478257 /* UIImage+PinToEdge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+PinToEdge.swift"; sourceTree = "<group>"; };
 		1B1F0F5D246722CA005831EC /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		1B862FE62462F07700C3694A /* PopularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
 		1B89C3BD243DFF3000131D37 /* TrendingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingController.swift; sourceTree = "<group>"; };
@@ -116,6 +120,14 @@
 				1B1966F9257FA87E00478257 /* NetworkManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		1B19671E25811D7900478257 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1B19671B25811D7200478257 /* UIImage+PinToEdge.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		1B7D791E2567F7E300C41951 /* Networking */ = {
@@ -188,6 +200,7 @@
 				1B928D2124276F9000D48153 /* AppDelegate.swift */,
 				1B928D2324276F9000D48153 /* SceneDelegate.swift */,
 				1B928D2F24276F9300D48153 /* Info.plist */,
+				1B19671E25811D7900478257 /* Extensions */,
 			);
 			path = TVLibrary;
 			sourceTree = "<group>";
@@ -213,6 +226,7 @@
 				1B9339D12541BDE200FB0DD8 /* SearchResultCell.xib */,
 				1B9339D32541DE4800FB0DD8 /* LoadingCell.xib */,
 				1B9339D52541DE5400FB0DD8 /* NothingFoundCell.xib */,
+				1B1967182580E59600478257 /* DetailsScrollView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -303,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B196702257FB02700478257 /* SearchEndpoint.swift in Sources */,
+				1B1967192580E59600478257 /* DetailsScrollView.swift in Sources */,
 				1B1966F2257FA82800478257 /* NetworkLogger.swift in Sources */,
 				1B1966E8257FA7CE00478257 /* ParameterEncoding.swift in Sources */,
 				1B19670A25800F8800478257 /* TVShowDetails.swift in Sources */,
@@ -315,6 +330,7 @@
 				1BE279EC256952E0006444E8 /* httpEnums.swift in Sources */,
 				1B928D2624276F9000D48153 /* TrendingViewController.swift in Sources */,
 				1B9339DA2541E0B400FB0DD8 /* SearchResultCell.swift in Sources */,
+				1B19671C25811D7300478257 /* UIImage+PinToEdge.swift in Sources */,
 				1B928D2224276F9000D48153 /* AppDelegate.swift in Sources */,
 				1B1966EC257FA7F600478257 /* URLParameterEncoder.swift in Sources */,
 				1B95DFA7243B8DD700090281 /* TVShowBundle.swift in Sources */,

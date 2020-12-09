@@ -56,7 +56,7 @@ class TrendingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let apiKey = "73622f65fd4eb79f37924c199636fe02"
+        let _ = "73622f65fd4eb79f37924c199636fe02"
         downloadDetails(trending: trending, popular: popular)
             }
     
@@ -147,7 +147,7 @@ extension TrendingViewController {
             }
         }
         
-        dataSource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.reuseIdentifier, for: indexPath) as? SectionHeader else {
                 return UICollectionReusableView()
             }

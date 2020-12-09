@@ -12,6 +12,8 @@ public enum TVShowApi {
     case popular(page:Int)
     case trending(page:Int)
     case topRated(page:Int)
+    case details(id:Int)
+    case images(id:Int)
 }
 
 extension TVShowApi: EndPointType {
@@ -28,6 +30,11 @@ extension TVShowApi: EndPointType {
             return "trending"
         case .topRated:
             return "top_rated"
+        case .details(let id):
+            return "\(id)"
+        case .images(let id):
+            return "\(id)/images"
+            
         }
     }
     
@@ -37,9 +44,13 @@ extension TVShowApi: EndPointType {
     
     var task: HTTPTask {
         switch self {
+        case .details(let id), .images(let id):
+            return .requestParameters(bodyParameters: nil,
+                                      bodyEncoding: .urlEncoding,
+                                      urlParameters: ["api_key":NetworkManager.APIKey,
+                                                      "id":id])
         default:
             return .request
-            
         }
     }
     

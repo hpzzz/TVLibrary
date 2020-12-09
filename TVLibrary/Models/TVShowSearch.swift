@@ -1,16 +1,37 @@
 //
-//  SearchResult.swift
+//  TVShowSearch.swift
 //  TVLibrary
 //
-//  Created by Karol Harasim on 22/10/2020.
+//  Created by Karol Harasim on 09/12/2020.
 //  Copyright © 2020 Karol Harasim. All rights reserved.
 //
 
 import Foundation
 
-class ResultArray: Codable {
-    var total_results = 0
-    var results = [SearchResult]()
+struct SearchTVApiResponse {
+    let page: Int
+    let numberOfResults: Int
+    let numberOfPages: Int
+    let tvShows: [SearchResult]
+}
+
+extension SearchTVApiResponse: Decodable {
+    
+    private enum MovieApiResponseCodingKeys: String, CodingKey {
+        case page
+        case numberOfResults = "total_results"
+        case numberOfPages = "total_pages"
+        case tvShows = "results"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: MovieApiResponseCodingKeys.self)
+        
+        page = try container.decode(Int.self, forKey: .page)
+        numberOfResults = try container.decode(Int.self, forKey: .numberOfResults)
+        numberOfPages = try container.decode(Int.self, forKey: .numberOfPages)
+        tvShows = try container.decode([SearchResult].self, forKey: .tvShows)
+    }
 }
 
 class SearchResult: Codable {
@@ -49,11 +70,4 @@ class SearchResult: Codable {
         case overview
         case posterPath = "poster_path"
     }
-    
-//    enum OriginalLanguage: String, Codable {
-//        case en = "en"
-//        case ja = "ja"
-//        case ko = "ko"
-//        case de = "de"
-//    }
 }

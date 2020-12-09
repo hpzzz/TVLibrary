@@ -38,7 +38,6 @@ extension SearchApi: EndPointType {
     var task: HTTPTask {
         switch self {
         case .tv(let page, let query), .movie(let page, let query), .people(let page, let query):
-            print(query)
             return .requestParameters(bodyParameters: nil,
                                       bodyEncoding: .urlEncoding,
                                       urlParameters: ["api_key":NetworkManager.APIKey,
@@ -52,6 +51,4 @@ extension SearchApi: EndPointType {
     var headers: HTTPHeaders? {
         return nil
     }
-    
-    
 }

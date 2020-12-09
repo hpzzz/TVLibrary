@@ -15,6 +15,8 @@
 		1B1966FA257FA87E00478257 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1966F9257FA87E00478257 /* NetworkManager.swift */; };
 		1B196702257FB02700478257 /* SearchEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B196701257FB02700478257 /* SearchEndpoint.swift */; };
 		1B196705257FB7C600478257 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B196704257FB7C600478257 /* Router.swift */; };
+		1B19670A25800F8800478257 /* TVShowDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19670925800F8800478257 /* TVShowDetails.swift */; };
+		1B1967112580473800478257 /* TVShowSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1967102580473800478257 /* TVShowSearch.swift */; };
 		1B1F0F5E246722CA005831EC /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1F0F5D246722CA005831EC /* SectionHeader.swift */; };
 		1B862FE72462F07700C3694A /* PopularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B862FE62462F07700C3694A /* PopularCell.swift */; };
 		1B89C3BE243DFF3000131D37 /* TrendingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89C3BD243DFF3000131D37 /* TrendingController.swift */; };
@@ -27,8 +29,6 @@
 		1B928D2924276F9000D48153 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B928D2724276F9000D48153 /* Main.storyboard */; };
 		1B928D2B24276F9300D48153 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B928D2A24276F9300D48153 /* Assets.xcassets */; };
 		1B928D2E24276F9300D48153 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B928D2C24276F9300D48153 /* LaunchScreen.storyboard */; };
-		1B9339CE2541B13500FB0DD8 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9339CD2541B13500FB0DD8 /* SearchResult.swift */; };
-		1B9339D02541B13E00FB0DD8 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9339CF2541B13E00FB0DD8 /* Search.swift */; };
 		1B9339D22541BDE200FB0DD8 /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9339D12541BDE200FB0DD8 /* SearchResultCell.xib */; };
 		1B9339D42541DE4800FB0DD8 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9339D32541DE4800FB0DD8 /* LoadingCell.xib */; };
 		1B9339D62541DE5400FB0DD8 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9339D52541DE5400FB0DD8 /* NothingFoundCell.xib */; };
@@ -51,6 +51,8 @@
 		1B1966F9257FA87E00478257 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		1B196701257FB02700478257 /* SearchEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEndpoint.swift; sourceTree = "<group>"; };
 		1B196704257FB7C600478257 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		1B19670925800F8800478257 /* TVShowDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowDetails.swift; sourceTree = "<group>"; };
+		1B1967102580473800478257 /* TVShowSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowSearch.swift; sourceTree = "<group>"; };
 		1B1F0F5D246722CA005831EC /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		1B862FE62462F07700C3694A /* PopularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
 		1B89C3BD243DFF3000131D37 /* TrendingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingController.swift; sourceTree = "<group>"; };
@@ -65,8 +67,6 @@
 		1B928D2A24276F9300D48153 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B928D2D24276F9300D48153 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1B928D2F24276F9300D48153 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1B9339CD2541B13500FB0DD8 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
-		1B9339CF2541B13E00FB0DD8 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		1B9339D12541BDE200FB0DD8 /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		1B9339D32541DE4800FB0DD8 /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		1B9339D52541DE5400FB0DD8 /* NothingFoundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
@@ -134,8 +134,9 @@
 		1B7D79212567F84F00C41951 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1B9339CD2541B13500FB0DD8 /* SearchResult.swift */,
 				1B95DFA6243B8DD700090281 /* TVShowBundle.swift */,
+				1B19670925800F8800478257 /* TVShowDetails.swift */,
+				1B1967102580473800478257 /* TVShowSearch.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -182,7 +183,6 @@
 				1B7D791E2567F7E300C41951 /* Networking */,
 				1B9339D82541DEA200FB0DD8 /* Views */,
 				1B7D79212567F84F00C41951 /* Models */,
-				1B9339CF2541B13E00FB0DD8 /* Search.swift */,
 				1B928D2A24276F9300D48153 /* Assets.xcassets */,
 				1B7D79242567F87900C41951 /* Storyboards */,
 				1B928D2124276F9000D48153 /* AppDelegate.swift */,
@@ -305,6 +305,7 @@
 				1B196702257FB02700478257 /* SearchEndpoint.swift in Sources */,
 				1B1966F2257FA82800478257 /* NetworkLogger.swift in Sources */,
 				1B1966E8257FA7CE00478257 /* ParameterEncoding.swift in Sources */,
+				1B19670A25800F8800478257 /* TVShowDetails.swift in Sources */,
 				1B8C97D22440C97500A14B12 /* SelfConfiguringCell.swift in Sources */,
 				1B196705257FB7C600478257 /* Router.swift in Sources */,
 				1B95DFA5243B875700090281 /* TrendingCell.swift in Sources */,
@@ -315,17 +316,16 @@
 				1B928D2624276F9000D48153 /* TrendingViewController.swift in Sources */,
 				1B9339DA2541E0B400FB0DD8 /* SearchResultCell.swift in Sources */,
 				1B928D2224276F9000D48153 /* AppDelegate.swift in Sources */,
-				1B9339CE2541B13500FB0DD8 /* SearchResult.swift in Sources */,
 				1B1966EC257FA7F600478257 /* URLParameterEncoder.swift in Sources */,
 				1B95DFA7243B8DD700090281 /* TVShowBundle.swift in Sources */,
 				1BE726012538668A003419C5 /* DetailsViewController.swift in Sources */,
 				1BA585C3247286D100CCBA69 /* SearchViewController.swift in Sources */,
 				1BE279E2256951C9006444E8 /* EndPointType.swift in Sources */,
+				1B1967112580473800478257 /* TVShowSearch.swift in Sources */,
 				1B8C97D42440D1F400A14B12 /* UIImageView+DownloadedImage.swift in Sources */,
 				1B1F0F5E246722CA005831EC /* SectionHeader.swift in Sources */,
 				1B1966F6257FA85700478257 /* TVShowEndpoint.swift in Sources */,
 				1B1966EF257FA80900478257 /* JSONParameterEncoder.swift in Sources */,
-				1B9339D02541B13E00FB0DD8 /* Search.swift in Sources */,
 				1B1966FA257FA87E00478257 /* NetworkManager.swift in Sources */,
 				1B89C3BE243DFF3000131D37 /* TrendingController.swift in Sources */,
 				1B928D2424276F9000D48153 /* SceneDelegate.swift in Sources */,

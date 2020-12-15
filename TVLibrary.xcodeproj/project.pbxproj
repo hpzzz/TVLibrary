@@ -19,6 +19,7 @@
 		1B1967112580473800478257 /* TVShowSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1967102580473800478257 /* TVShowSearch.swift */; };
 		1B1967192580E59600478257 /* DetailsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1967182580E59600478257 /* DetailsScrollView.swift */; };
 		1B1F0F5E246722CA005831EC /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1F0F5D246722CA005831EC /* SectionHeader.swift */; };
+		1B4779552588FF3C0049C0F8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4779542588FF3C0049C0F8 /* TabBarController.swift */; };
 		1B862FE72462F07700C3694A /* PopularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B862FE62462F07700C3694A /* PopularCell.swift */; };
 		1B89C3BE243DFF3000131D37 /* TrendingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89C3BD243DFF3000131D37 /* TrendingController.swift */; };
 		1B8C97D22440C97500A14B12 /* SelfConfiguringCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8C97D12440C97500A14B12 /* SelfConfiguringCell.swift */; };
@@ -56,6 +57,7 @@
 		1B1967102580473800478257 /* TVShowSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowSearch.swift; sourceTree = "<group>"; };
 		1B1967182580E59600478257 /* DetailsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsScrollView.swift; sourceTree = "<group>"; };
 		1B1F0F5D246722CA005831EC /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		1B4779542588FF3C0049C0F8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		1B862FE62462F07700C3694A /* PopularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
 		1B89C3BD243DFF3000131D37 /* TrendingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingController.swift; sourceTree = "<group>"; };
 		1B8C97D12440C97500A14B12 /* SelfConfiguringCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfConfiguringCell.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				1B928D2524276F9000D48153 /* TrendingViewController.swift */,
 				1BE726002538668A003419C5 /* DetailsViewController.swift */,
 				1BA585C2247286D100CCBA69 /* SearchViewController.swift */,
+				1B4779542588FF3C0049C0F8 /* TabBarController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				1B1967112580473800478257 /* TVShowSearch.swift in Sources */,
 				1B8C97D42440D1F400A14B12 /* UIImageView+DownloadedImage.swift in Sources */,
 				1B1F0F5E246722CA005831EC /* SectionHeader.swift in Sources */,
+				1B4779552588FF3C0049C0F8 /* TabBarController.swift in Sources */,
 				1B1966F6257FA85700478257 /* TVShowEndpoint.swift in Sources */,
 				1B1966EF257FA80900478257 /* JSONParameterEncoder.swift in Sources */,
 				1B1966FA257FA87E00478257 /* NetworkManager.swift in Sources */,

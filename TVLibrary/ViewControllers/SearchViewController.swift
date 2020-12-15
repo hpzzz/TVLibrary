@@ -17,6 +17,10 @@ class SearchViewController: UIViewController {
     var searchResult: SearchTVApiResponse?
     var searchController: UISearchController!
     
+    deinit {
+        print("HAHAHA")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         networkManager = NetworkManager()
@@ -30,6 +34,11 @@ class SearchViewController: UIViewController {
         self.navigationItem.titleView = self.searchController.searchBar
         setupTableView()
     }
+    
+//    override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//        navigationController?.setNavigationBarHidden(true, animated: false)
+//    }
     
     struct TableViewCellIdentifiers {
         static let searchResultCell = "SearchResultCell"

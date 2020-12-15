@@ -64,6 +64,7 @@ class DetailsScrollView: UIScrollView {
         NSLayoutConstraint.activate([
             backdropImageView.widthAnchor.constraint(equalTo: self.widthAnchor),
 //            titleLabel.widthAnchor.constraint(equalTo: self.widthAnchor),
+            posterImageView.widthAnchor.constraint(equalToConstant: 150),
             blueView.widthAnchor.constraint(equalTo: self.widthAnchor),
             ])
 
@@ -71,14 +72,14 @@ class DetailsScrollView: UIScrollView {
         // this also defines the width of the scrollView's .contentSize
         NSLayoutConstraint.activate([
             backdropImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            overviewLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 8),
+            posterImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            overviewLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 10),
             blueView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backdropImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            posterImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -280),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
-            overviewLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
+//            posterImageView.trailingAnchor.constraint(equalTo: self.overviewLabel),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            overviewLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             blueView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
         ])
 
@@ -174,7 +175,7 @@ class DetailsScrollView: UIScrollView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 24, weight: .medium))
+        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 30, weight: .medium))
         label.numberOfLines = 2
         return label
     }()
@@ -198,7 +199,7 @@ class DetailsScrollView: UIScrollView {
     lazy var overviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 14))
+        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 18))
         label.numberOfLines = 0
         return label
     }()

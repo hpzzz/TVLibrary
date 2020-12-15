@@ -34,6 +34,14 @@ struct TVShowDetailsApiResponse: Decodable {
     let originalLanguage, originalName, overview: String
     let popularity: Double
     let posterPath: String?
+    
+    var poster: String {
+        if let posterPath = posterPath {
+            return "https://image.tmdb.org/t/p/w154\(posterPath)"
+        } else {
+            return ""
+        }
+    }
     let seasons: [Season]
     let status, tagline, type: String
     let voteAverage: Double
@@ -89,11 +97,11 @@ struct LastorNextEpisodeToAir: Codable {
     }
 }
 struct Season: Codable {
-    let airDate: String
-    let episodeCount, id: Int
-    let name, overview: String
+    let airDate: String?
+    let episodeCount, id: Int?
+    let name, overview: String?
     let posterPath: String?
-    let seasonNumber: Int
+    let seasonNumber: Int?
 
     enum CodingKeys: String, CodingKey {
         case airDate = "air_date"

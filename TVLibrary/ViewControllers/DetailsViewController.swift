@@ -12,41 +12,17 @@ class DetailsViewController: UIViewController {
     var tvShowID = 0
     var tvShowDetails: TVShowDetailsApiResponse!
     var networkManager: NetworkManager!
-    lazy var addButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Add to library", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(UIColor.systemBlue, for: .normal)
-//        button.addTarget(self, action: #selector(showAllPopular), for: .touchUpInside)
-        button.backgroundColor = .clear
-        return button
-    }()
-    //    var scrollView: DetailsScrollView!
+    var scrollView = DetailsScrollView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubview(addButton)
-        
-        NSLayoutConstraint.activate([
-            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            addButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
-        //        scrollView = DetailsScrollView()
-        //        view.addSubview(scrollView)
-        //        NSLayoutConstraint.activate([
-        //                                        scrollView.topAnchor.constraint(
-        //                                            equalTo: view.safeAreaLayoutGuide.topAnchor),
-        //            scrollView.trailingAnchor.constraint(
-        //                equalTo: view.trailingAnchor),
-        //            scrollView.leadingAnchor.constraint(
-        //                equalTo: view.leadingAnchor),
-        //            scrollView.bottomAnchor.constraint(
-        //                equalTo: view.bottomAnchor),
-        //            scrollView.stackView.widthAnchor.constraint(equalTo: self.view.widthAnchor)
-        //        ])
-        //        print(2)
-        //        print(tvShowID)
+        self.view.addSubview(scrollView)
+        scrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +31,11 @@ class DetailsViewController: UIViewController {
         networkManager.getTVShowDetails(id: tvShowID) { details, error in
             guard details != nil else { return }
             self.tvShowDetails = details
+            DispatchQueue.main.async {
+                self.scrollView.configure(for: self.tvShowDetails)
+                self.title = self.tvShowDetails.name
+            }
+            
         }
 
     }

@@ -12,40 +12,114 @@ class DetailsScrollView: UIScrollView {
     var downloadTask: URLSessionDownloadTask?
     let stackView = UIStackView()
     
+    lazy var addButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Add to library", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+//        button.addTarget(self, action: #selector(showAllPopular), for: .touchUpInside)
+        button.backgroundColor = .clear
+        return button
+    }()
+    
+    let redView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .red
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    
+    let greenView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .green
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    
+    let blueView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .blue
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .yellow
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 10
+        self.addSubview(backdropImageView)
+        self.addSubview(titleLabel)
+        self.addSubview(posterImageView)
+        self.addSubview(overviewLabel)
         
-        stackView.addSubview(backdropImageView)
-        
-        
-//        self.addSubview(posterImageView)
-//        self.addSubview(backdropImageView)
-        
-//        self.addSubview(titleLabel)
-//        self.addSubview(voteAverageLabel)
-//        self.addSubview(voteCountLabel)
-//        self.addSubview(overviewLabel)
-//
-        
+        self.addSubview(blueView)
 
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: self.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            backdropImageView.topAnchor.constraint(equalTo: topAnchor),
-            backdropImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backdropImageView.trailingAnchor.constraint(equalTo: trailingAnchor)
-            
+            backdropImageView.heightAnchor.constraint(equalToConstant: 250),
+            blueView.heightAnchor.constraint(equalToConstant: 1000),
+            ])
+
+        // give each view a width constraint equal to scrollView's width
+        NSLayoutConstraint.activate([
+            backdropImageView.widthAnchor.constraint(equalTo: self.widthAnchor),
+//            titleLabel.widthAnchor.constraint(equalTo: self.widthAnchor),
+            blueView.widthAnchor.constraint(equalTo: self.widthAnchor),
+            ])
+
+        // constrain each view's leading and trailing to the scrollView
+        // this also defines the width of the scrollView's .contentSize
+        NSLayoutConstraint.activate([
+            backdropImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            posterImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            overviewLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 8),
+            blueView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            backdropImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            posterImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -280),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
+            overviewLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
+            blueView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
         ])
+
+        // constrain redView's Top to scrollView's Top + 8-pts padding
+        // this also defines the Top of the scrollView's .contentSize
+        NSLayoutConstraint.activate([
+            backdropImageView.topAnchor.constraint(equalTo: self.topAnchor),
+            ])
+        
+        NSLayoutConstraint.activate([
+            posterImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8.0),
+            overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8.0),
+            ])
+
+        // constrain greenView's Top to redView's Bottom + 20-pts spacing
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 8.0),
+            ])
+
+        // constrain blueView's Top to greenView's Bottom + 20-pts spacing
+        NSLayoutConstraint.activate([
+            blueView.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 20.0),
+            ])
+
+        // constrain blueView's Bottom to scrollView's Bottom + 8-pts padding
+        // this also defines the Bottom / Height of the scrollView's .contentSize
+        // Note: it must be negative
+        NSLayoutConstraint.activate([
+            blueView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8.0),
+            ])
+        
+//        NSLayoutConstraint.activate([
+//            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            addButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//        ])
+        
+        
+//        self.addSubview(posterImageView)
+//        self.addSubview(voteAverageLabel)
+//        self.addSubview(voteCountLabel)
+//        self.addSubview(overviewLabel)
     }
     
     func configure(for details: TVShowDetailsApiResponse) {
@@ -56,12 +130,22 @@ class DetailsScrollView: UIScrollView {
             titleLabel.text = details.name
         }
         
+        if details.overview.isEmpty {
+            overviewLabel.text = "No description"
+        } else {
+            overviewLabel.text = details.overview
+        }
+        
         voteAverageLabel.text = "★ " + String(details.voteAverage) + "/10"
         voteCountLabel.text = String(details.voteCount)
         
 //        backdropImageView.image = UIImage(named: "Placeholder")
         if let smallURL = URL(string: details.image) {
             downloadTask = backdropImageView.loadImage(url: smallURL)
+        }
+        
+        if let url = URL(string: details.poster) {
+            downloadTask = posterImageView.loadImage(url: url)
         }
     }
     
@@ -75,7 +159,6 @@ class DetailsScrollView: UIScrollView {
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .clear
         imageView.clipsToBounds = true
-        imageView.layer.borderWidth = 1.0
         return imageView
     }()
     
@@ -85,14 +168,13 @@ class DetailsScrollView: UIScrollView {
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .clear
         imageView.clipsToBounds = true
-        imageView.layer.borderWidth = 1.0
         return imageView
     }()
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 20, weight: .bold))
+        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 24, weight: .medium))
         label.numberOfLines = 2
         return label
     }()
@@ -116,7 +198,7 @@ class DetailsScrollView: UIScrollView {
     lazy var overviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 20, weight: .bold))
+        label.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 14))
         label.numberOfLines = 0
         return label
     }()

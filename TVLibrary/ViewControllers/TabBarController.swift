@@ -18,8 +18,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        print("Selected view controller")
-        print(selectedIndex)
         guard let navigationController = viewControllers?[selectedIndex] as? UINavigationController else { print("nope"); return}
         if navigationController.title != "search" {
             guard let navController = viewControllers?[1] as? UINavigationController else { return }
@@ -29,21 +27,5 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 vc.searchController.dismiss(animated: true)
             }
         }
-        
-//        if vc.searchController.isActive {
-//            vc.searchController.isActive.toggle()
-//            print("HAHA")
-//        }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

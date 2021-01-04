@@ -10,14 +10,55 @@ import UIKit
 import RealmSwift
 
 class Show: Object {
+    
     @objc dynamic var showID: Int = 0
     @objc dynamic var showName: String = ""
     @objc dynamic var nextEpisode: NextEpisode? = nil
 
-    
     override static func primaryKey() -> String? {
             return "showID"
         }
+    
+    func nextEpisodeDescription() -> String {
+        return String(describing: "")
+    }
+    
+    convenience init(details: TVShowDetailsApiResponse) {
+        self.init()
+        self.showID = details.id
+        self.showName = details.name
+        self.nextEpisode = NextEpisode()
+        if let episodeAirDate = details.nextEpisodeToAir?.airDate {
+            self.nextEpisode?.episodeDate = episodeAirDate
+        }
+        if let episodeNum = details.nextEpisodeToAir?.episodeNumber {
+            self.nextEpisode?.episodeNumber = episodeNum
+        }
+        if let episodeName = details.nextEpisodeToAir?.name {
+            self.nextEpisode?.episodeName = episodeName
+        }
+        if let seasonNum = details.nextEpisodeToAir?.seasonNumber {
+            self.nextEpisode?.seasonNumber = seasonNum
+        }
+    }
+    
+    func assignFromDetails(details: TVShowDetailsApiResponse) {
+        self.showID = details.id
+        self.showName = details.name
+        self.nextEpisode = NextEpisode()
+        if let episodeAirDate = details.nextEpisodeToAir?.airDate {
+            self.nextEpisode?.episodeDate = episodeAirDate
+        }
+        if let episodeNum = details.nextEpisodeToAir?.episodeNumber {
+            self.nextEpisode?.episodeNumber = episodeNum
+        }
+        if let episodeName = details.nextEpisodeToAir?.name {
+            self.nextEpisode?.episodeName = episodeName
+        }
+        if let seasonNum = details.nextEpisodeToAir?.seasonNumber {
+            self.nextEpisode?.seasonNumber = seasonNum
+        }
+    }
 }
 
 class NextEpisode: Object {
@@ -56,28 +97,27 @@ class DetailsViewController: UIViewController {
         case true:
             let realm = try! Realm()
             if let show = realm.object(ofType: Show.self, forPrimaryKey: tvShowDetails.id) {
-                print(show.showName)
                 try! realm.write {
                     realm.delete(show)
                 }
             }
         case false:
-            let myShow = Show()
-            myShow.showID = tvShowDetails.id
-            myShow.showName = tvShowDetails.name
-            myShow.nextEpisode = NextEpisode()
-            if let episodeAirDate = tvShowDetails.nextEpisodeToAir?.airDate {
-                myShow.nextEpisode?.episodeDate = episodeAirDate
-            }
-            if let episodeNum = tvShowDetails.nextEpisodeToAir?.episodeNumber {
-                myShow.nextEpisode?.episodeNumber = episodeNum
-            }
-            if let episodeName = tvShowDetails.nextEpisodeToAir?.name {
-                myShow.nextEpisode?.episodeName = episodeName
-            }
-            if let seasonNum = tvShowDetails.nextEpisodeToAir?.seasonNumber {
-                myShow.nextEpisode?.seasonNumber = seasonNum
-            }
+            let myShow = Show(details: tvShowDetails)
+//            myShow.showID = tvShowDetails.id
+//            myShow.showName = tvShowDetails.name
+//            myShow.nextEpisode = NextEpisode()
+//            if let episodeAirDate = tvShowDetails.nextEpisodeToAir?.airDate {
+//                myShow.nextEpisode?.episodeDate = episodeAirDate
+//            }
+//            if let episodeNum = tvShowDetails.nextEpisodeToAir?.episodeNumber {
+//                myShow.nextEpisode?.episodeNumber = episodeNum
+//            }
+//            if let episodeName = tvShowDetails.nextEpisodeToAir?.name {
+//                myShow.nextEpisode?.episodeName = episodeName
+//            }
+//            if let seasonNum = tvShowDetails.nextEpisodeToAir?.seasonNumber {
+//                myShow.nextEpisode?.seasonNumber = seasonNum
+//            }
             try! realm.write {
                 realm.add(myShow)
             }

@@ -177,6 +177,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		1B8CB3D425A365EA00A3E403 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1B8CB3D125A3568D00A3E403 /* RealmHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		1B928D1524276F8F00D48153 = {
 			isa = PBXGroup;
 			children = (
@@ -208,7 +216,7 @@
 				1B928D2124276F9000D48153 /* AppDelegate.swift */,
 				1B928D2324276F9000D48153 /* SceneDelegate.swift */,
 				1B928D2F24276F9300D48153 /* Info.plist */,
-				1B8CB3D125A3568D00A3E403 /* RealmHelper.swift */,
+				1B8CB3D425A365EA00A3E403 /* Helpers */,
 			);
 			path = TVLibrary;
 			sourceTree = "<group>";

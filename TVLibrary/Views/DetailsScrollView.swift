@@ -14,7 +14,6 @@ class DetailsScrollView: UIScrollView {
     
     lazy var addButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Add to library", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.systemBlue, for: .normal)
 //        button.addTarget(self, action: #selector(showAllPopular), for: .touchUpInside)
@@ -51,6 +50,7 @@ class DetailsScrollView: UIScrollView {
         self.addSubview(titleLabel)
         self.addSubview(posterImageView)
         self.addSubview(overviewLabel)
+        self.addSubview(addButton)
         
         self.addSubview(blueView)
 
@@ -75,11 +75,13 @@ class DetailsScrollView: UIScrollView {
             posterImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             overviewLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 10),
+            addButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             blueView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backdropImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 //            posterImageView.trailingAnchor.constraint(equalTo: self.overviewLabel),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             overviewLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            addButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             blueView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
         ])
 
@@ -101,7 +103,11 @@ class DetailsScrollView: UIScrollView {
 
         // constrain blueView's Top to greenView's Bottom + 20-pts spacing
         NSLayoutConstraint.activate([
-            blueView.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 20.0),
+            blueView.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 20.0),
+            ])
+        
+        NSLayoutConstraint.activate([
+            addButton.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 20.0),
             ])
 
         // constrain blueView's Bottom to scrollView's Bottom + 8-pts padding
@@ -123,6 +129,10 @@ class DetailsScrollView: UIScrollView {
 //        self.addSubview(overviewLabel)
     }
     
+    func configureAddButton(_ inLibrary: Bool) {
+        addButton.setTitle(inLibrary ? "Remove from Library": "Add to library", for: .normal)
+    }
+    
     func configure(for details: TVShowDetailsApiResponse) {
         
         if details.name.isEmpty {
@@ -137,16 +147,19 @@ class DetailsScrollView: UIScrollView {
             overviewLabel.text = details.overview
         }
         
+        
         voteAverageLabel.text = "★ " + String(details.voteAverage) + "/10"
         voteCountLabel.text = String(details.voteCount)
         
 //        backdropImageView.image = UIImage(named: "Placeholder")
+        
+        
         if let smallURL = URL(string: details.image) {
-            downloadTask = backdropImageView.loadImage(url: smallURL)
+            backdropImageView.loadImageWithUrl(smallURL)
         }
         
         if let url = URL(string: details.poster) {
-            downloadTask = posterImageView.loadImage(url: url)
+            posterImageView.loadImageWithUrl(url)
         }
     }
     

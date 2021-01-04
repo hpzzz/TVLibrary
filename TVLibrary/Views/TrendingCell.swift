@@ -10,7 +10,6 @@ import UIKit
 
 class TrendingCell: UICollectionViewCell, SelfConfiguringCell {
     static var reuseIdentifier: String = "TrendingCell"
-    var downloadTask: URLSessionDownloadTask?
     var trending: TVShow?
 
     

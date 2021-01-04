@@ -11,7 +11,6 @@ import UIKit
 
 class PopularCell: UICollectionViewCell, SelfConfiguringCell {
     static var reuseIdentifier: String = "PopularCell"
-    var downloadTask: URLSessionDownloadTask?
     var popular: TVShow?
     
     lazy var imageView: ImageLoader = {

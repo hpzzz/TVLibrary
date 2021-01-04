@@ -25,10 +25,10 @@
             </objects>
             <point key="canvasLocation" x="1784.057971014493" y="258.48214285714283"/>
         </scene>
-        <!--View Controller-->
+        <!--Next Episode View Controller-->
         <scene sceneID="t1l-I1-gcY">
             <objects>
-                <viewController id="YuW-JH-cBO" sceneMemberID="viewController">
+                <viewController id="YuW-JH-cBO" customClass="NextEpisodeViewController" customModule="TVLibrary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hsd-eA-icz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

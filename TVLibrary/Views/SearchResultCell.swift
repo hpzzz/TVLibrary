@@ -12,7 +12,7 @@ import UIKit
 class SearchResultCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var posterImageView: UIImageView!
+    @IBOutlet weak var posterImageView: ImageLoader!
     @IBOutlet weak var voteAverageLabel: UILabel!
     
     
@@ -36,7 +36,8 @@ class SearchResultCell: UITableViewCell {
 
         posterImageView.image = UIImage(named: "Placeholder")
         if let smallURL = URL(string: result.image) {
-            downloadTask = posterImageView.loadImage(url: smallURL)
+//            downloadTask = posterImageView.loadImage(url: smallURL)
+            posterImageView.loadImageWithUrl(smallURL)
         }
     }
     

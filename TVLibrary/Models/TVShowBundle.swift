@@ -9,14 +9,14 @@
 import Foundation
 
 struct TrendingResult: Hashable, Codable {
-    var results: [TVShow]
+    var results: [TVShowPreview]
 }
 
 struct PopularResult: Hashable, Codable {
-    var results: [TVShow]
+    var results: [TVShowPreview]
 }
 
-struct TVShow: Hashable, Codable {
+struct TVShowPreview: Hashable, Codable {
     var name: String
     var id: Int
     var posterPath: String
@@ -27,14 +27,5 @@ struct TVShow: Hashable, Codable {
         case posterPath = "poster_path"
         case backdropPath = "backdrop_path"
     }
-}
-
-struct TVShowDetails: Hashable, Codable {
-    
-}
-
-struct Actor: Codable, Hashable {
-    let Id: Int
-    let name, bio, image: String
 }
 

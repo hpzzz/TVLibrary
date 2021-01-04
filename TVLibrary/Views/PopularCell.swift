@@ -11,7 +11,7 @@ import UIKit
 
 class PopularCell: UICollectionViewCell, SelfConfiguringCell {
     static var reuseIdentifier: String = "PopularCell"
-    var popular: TVShow?
+    var popular: TVShowPreview?
     
     lazy var imageView: ImageLoader = {
         let imageView = ImageLoader()
@@ -40,7 +40,7 @@ class PopularCell: UICollectionViewCell, SelfConfiguringCell {
         super.init(coder: coder)
     }
     
-    func configure(with TVShow: TVShow) {
+    func configure(with TVShow: TVShowPreview) {
         titleLabel.text = TVShow.name
         if let smallURL = URL(string: "https://image.tmdb.org/t/p/w300/\(TVShow.posterPath)") {
             imageView.loadImageWithUrl(smallURL)

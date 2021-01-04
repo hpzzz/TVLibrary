@@ -10,7 +10,7 @@ import UIKit
 
 class TrendingCell: UICollectionViewCell, SelfConfiguringCell {
     static var reuseIdentifier: String = "TrendingCell"
-    var trending: TVShow?
+    var trending: TVShowPreview?
 
     
     lazy var imageView: ImageLoader = {
@@ -37,7 +37,7 @@ class TrendingCell: UICollectionViewCell, SelfConfiguringCell {
         super.init(frame: frame)
     }
     
-    func configure(with TVShow: TVShow) {
+    func configure(with TVShow: TVShowPreview) {
         titleLabel.text = TVShow.name
         if let smallURL = URL(string: "https://image.tmdb.org/t/p/w300/\(TVShow.backdropPath)") {
             imageView.loadImageWithUrl(smallURL)

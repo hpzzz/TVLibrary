@@ -83,6 +83,68 @@ struct NetworkManager {
         }
     }
     
+    func getPopularTVShows(page: Int, completion: @escaping (_ Popular: PopularResult?,_ error: String?)->()){
+        tvShowRouter.request(.popular(page: page)) { data, response, error in
+
+            if error != nil {
+                completion(nil, "Please check your network connection.")
+            }
+
+            if let response = response as? HTTPURLResponse {
+                let result = self.handleNetworkResponse(response)
+                switch result {
+                case .success:
+                    guard let responseData = data else {
+                        completion(nil, NetworkResponse.noData.rawValue)
+                        return
+                    }
+                    do {
+                        let _ = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers)
+                        let apiResponse = try JSONDecoder().decode(PopularResult.self, from: responseData)
+                        completion(apiResponse,nil)
+                    }catch {
+                        print(error)
+                        completion(nil, NetworkResponse.unableToDecode.rawValue)
+                    }
+                case .failure(let networkFailureError):
+                    completion(nil, networkFailureError.rawValue)
+                }
+            }
+        }
+    }
+    
+    func getTrendingTVShows(page: Int,period: Period, completion: @escaping (_ Trending: TrendingResult?,_ error: String?)->()){
+        tvShowRouter.request(.trending(page: page, period: period)) { data, response, error in
+
+            if error != nil {
+                completion(nil, "Please check your network connection.")
+            }
+
+            if let response = response as? HTTPURLResponse {
+                let result = self.handleNetworkResponse(response)
+                switch result {
+                case .success:
+                    guard let responseData = data else {
+                        completion(nil, NetworkResponse.noData.rawValue)
+                        return
+                    }
+                    do {
+                        let _ = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers)
+                        let apiResponse = try JSONDecoder().decode(TrendingResult.self, from: responseData)
+                        completion(apiResponse,nil)
+                    }catch {
+                        print(error)
+                        completion(nil, NetworkResponse.unableToDecode.rawValue)
+                    }
+                case .failure(let networkFailureError):
+                    completion(nil, networkFailureError.rawValue)
+                }
+            }
+        }
+    }
+    
+    
+    
     
     fileprivate func handleNetworkResponse(_ response: HTTPURLResponse) -> Result<String, NetworkResponse>{
         switch response.statusCode {

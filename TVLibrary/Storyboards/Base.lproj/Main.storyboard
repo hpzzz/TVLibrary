@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5Sq-PI-e2K">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -14,7 +12,7 @@
             <objects>
                 <viewController id="oda-Ze-nIi" customClass="SearchViewController" customModule="TVLibrary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EVY-Ew-48M">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="k5Z-L8-kEV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -30,7 +28,7 @@
             <objects>
                 <viewController id="YuW-JH-cBO" customClass="NextEpisodeViewController" customModule="TVLibrary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hsd-eA-icz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="wAJ-Jz-oOB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -44,9 +42,9 @@
         <!--TV Shows-->
         <scene sceneID="khw-H5-Hme">
             <objects>
-                <viewController id="NOQ-lc-QBe" customClass="TrendingViewController" customModule="TVLibrary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="NOQ-lc-QBe" customClass="HomeViewController" customModule="TVLibrary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P6i-a6-tEc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="1BF-1U-FpX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

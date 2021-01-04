@@ -9,10 +9,7 @@
 import UIKit
 import Foundation
 
-class TrendingViewController: UIViewController {
-    
-
-    
+class HomeViewController: UIViewController {
     
     enum SectionKind: Int, CaseIterable {
         case groupPaging, continuousGroupLeadingBoundary
@@ -47,58 +44,71 @@ class TrendingViewController: UIViewController {
     }
     
     
-    var dataSource: UICollectionViewDiffableDataSource<SectionLayoutKind, TVShow>? = nil
+    var dataSource: UICollectionViewDiffableDataSource<SectionLayoutKind, TVShowPreview>? = nil
     var collectionView: UICollectionView! = nil
-    var trending = TrendingController()
-    var popular = PopularController()
     
+    var networkManager: NetworkManager!
     
+    var trending: TrendingResult!
+    var popular: PopularResult!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        downloadDetails()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let _ = "73622f65fd4eb79f37924c199636fe02"
-        downloadDetails(trending: trending, popular: popular)
-            }
+    }
     
     
-    
-    
-    func downloadDetails(trending: TrendingController, popular: PopularController){
+    func downloadDetails(){
+        print("HAAAAALO")
         let dispatchGroup = DispatchGroup()
-
+        networkManager = NetworkManager()
+        
         dispatchGroup.enter()   // <<---
-        trending.getTrending(for: .day) { success in
-            if !success {
-                print("Bad shit")
+        networkManager.getPopularTVShows(page: 1) { popular, error in
+            if error != nil {
+                print("Error")
             } else {
+//                self.popular.results = popular?.results ?? []
+                if let popular = popular {
+                    self.popular = popular
+                }
                 DispatchQueue.main.async {
                     dispatchGroup.leave()   // <<----
                 }
             }
         }
-
+        
         dispatchGroup.enter()   // <<---
-        popular.getPopular() { succes in
-            if !succes {
-                print("Bad shit")
+        networkManager.getTrendingTVShows(page: 1, period: .day) { trending, error in
+            if error != nil {
+                print("Error")
             } else {
+                if let trending = trending {
+                    self.trending = trending
+                }
+                print(self.trending.results.count)
                 DispatchQueue.main.async {
                     dispatchGroup.leave()   // <<----
                 }
             }
         }
-
+        
         dispatchGroup.notify(queue: .main) {
             self.configureHierarchy()
             self.configureDataSource()
             self.view.setNeedsLayout()
             self.reloadData()
-
+            
         }
     }
-        }
+}
 
-extension TrendingViewController {
+extension HomeViewController {
     func createLayout() -> UICollectionViewLayout {
         
         let layout = UICollectionViewCompositionalLayout { index, layoutEnvironment in
@@ -114,16 +124,16 @@ extension TrendingViewController {
         layout.configuration = config
         return layout
     }
-        
-    }
+    
+}
 
-extension TrendingViewController {
+extension HomeViewController {
     func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        //        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-
+        
+        
         collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader , withReuseIdentifier: SectionHeader.reuseIdentifier)
         collectionView.register(TrendingCell.self, forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
         collectionView.register(PopularCell.self, forCellWithReuseIdentifier: PopularCell.reuseIdentifier)
@@ -132,12 +142,12 @@ extension TrendingViewController {
         collectionView.delegate = self
     }
     
-
+    
     
     func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, TVShow>(collectionView: collectionView) {
-                (collectionView: UICollectionView, indexPath: IndexPath,
-            tvShow: TVShow) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<SectionLayoutKind, TVShowPreview>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath,
+             tvShow: TVShowPreview) -> UICollectionViewCell? in
             let section = SectionLayoutKind(rawValue: indexPath.section)!
             switch section {
             case .trending:
@@ -156,7 +166,7 @@ extension TrendingViewController {
         }
     }
     
-    func configure<T: SelfConfiguringCell>(_ cellType: T.Type, with TVShow: TVShow, for indexPath: IndexPath) -> T {
+    func configure<T: SelfConfiguringCell>(_ cellType: T.Type, with TVShow: TVShowPreview, for indexPath: IndexPath) -> T {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Unable to dequeue \(cellType)")
         }
@@ -165,22 +175,22 @@ extension TrendingViewController {
     }
     
     func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, TVShow>()
+        var snapshot = NSDiffableDataSourceSnapshot<SectionLayoutKind, TVShowPreview>()
         snapshot.appendSections([SectionLayoutKind.trending, .popular])
-        snapshot.appendItems(trending.trendingTVShows, toSection: .trending)
-        snapshot.appendItems(popular.popularTVShows, toSection: .popular)
+        snapshot.appendItems(trending.results, toSection: .trending)
+        snapshot.appendItems(popular.results, toSection: .popular)
         dataSource?.apply(snapshot)
     }
     
     func createTrendingSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-
+        
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
         layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-
+        
         let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.5))
         let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [layoutItem])
-
+        
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
         layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
         layoutSection.boundarySupplementaryItems = [createSectionHeader()]
@@ -198,7 +208,7 @@ extension TrendingViewController {
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
         layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
         layoutSection.boundarySupplementaryItems = [createSectionHeader()]
-
+        
         return layoutSection
     }
     
@@ -208,8 +218,8 @@ extension TrendingViewController {
         return layoutSectionHeader
     }
 }
-    
-extension TrendingViewController: UICollectionViewDelegate {
+
+extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let loadVC = DetailsViewController()
@@ -217,4 +227,4 @@ extension TrendingViewController: UICollectionViewDelegate {
         navigationController?.pushViewController(loadVC, animated: true)
     }
 }
-    
+

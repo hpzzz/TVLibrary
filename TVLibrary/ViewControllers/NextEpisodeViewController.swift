@@ -53,7 +53,7 @@ class NextEpisodeViewController: UIViewController {
     }
     
     @objc func refresh(_ sender: AnyObject) {
-       // Code to refresh table view
+        // Code to refresh table view
         updateNextEpisodeAirDate()
         refreshControl.endRefreshing()
     }
@@ -68,12 +68,18 @@ class NextEpisodeViewController: UIViewController {
             let threadSafe = ThreadSafeReference(to: show)
             networkManager.getTVShowDetails(id: show.showID) { [weak self] details, error in
                 guard details != nil else { return }
+                print("test1")
                 let realm = try! Realm()
                 guard let details = details,
                       let tvShow = realm.resolve(threadSafe) else { return }
                 if details.nextEpisodeToAir?.airDate != tvShow.nextEpisode?.episodeDate {
                     try! realm.write {
+                        print("test2")
                         self?.changeNextEpisodeOfShow(show: tvShow, details: details)
+                        DispatchQueue.main.async {
+                            self?.tableView.reloadData()
+                        }
+                        print("test3")
                     }
                 }
             }
@@ -114,33 +120,54 @@ class NextEpisodeViewController: UIViewController {
 
 extension NextEpisodeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let threadSafe = ThreadSafeReference(to: tvShows[indexPath.row])
-        
-        
-        eventStore.requestAccess(to: .event) { (granted, error) in
-            if (granted) && (error == nil) {
-                print("granted \(granted)")
-                print("error \(String(describing: error))")
-                let realm = try! Realm()
-                let tvShow = realm.resolve(threadSafe)
-                let event:EKEvent = EKEvent(eventStore: self.eventStore)
-                event.title = tvShow?.showName
-                event.startDate = Date()
-                event.endDate = Date()
-                event.notes = "This is a note"
-                event.calendar = self.eventStore.defaultCalendarForNewEvents
-                do {
-                    try self.eventStore.save(event, span: .thisEvent)
-                } catch let error as NSError {
-                    print("failed to save event with error : \(error)")
+        let ac = UIAlertController(title: "Add episode", message: "Do you want to add this episode's air date to calendar?", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
+            if let tvShow = self?.tvShows[indexPath.row] {
+                let threadSafe = ThreadSafeReference(to: tvShow)
+                if let eventStore = self?.eventStore {
+                    eventStore.requestAccess(to: .event) { (granted, error) in
+                        if (granted) && (error == nil) {
+                            print("granted \(granted)")
+                            print("error \(String(describing: error))")
+                            let realm = try! Realm()
+                            let tvShow = realm.resolve(threadSafe)
+                            
+                            if let show = tvShow {
+                                if let nextEpisode = show.nextEpisode {
+                                    let event:EKEvent = EKEvent(eventStore: eventStore)
+                                    event.title = show.showName
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                                    let date = dateFormatter.date(from: nextEpisode.episodeDate)
+                                    event.startDate = date
+                                    event.endDate = date
+                                    event.notes = "Next episode of \(String(describing: show.showName)) airs that day"
+                                    event.calendar = eventStore.defaultCalendarForNewEvents
+                                    do {
+                                        try eventStore.save(event, span: .thisEvent)
+                                    } catch let error as NSError {
+                                        print("failed to save event with error : \(error)")
+                                    }
+                                    print("Saved Event")
+                                }
+                                else{
+                                    
+                                    print("failed to save event with error : \(String(describing: error)) or access not granted")
+                                }
+                            }
+                            
+                        }
+                    }
+                    
+                    
+                    
                 }
-                print("Saved Event")
-            }
-            else{
                 
-                print("failed to save event with error : \(String(describing: error)) or access not granted")
             }
-        }
+            
+        })
+        ac.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        present(ac, animated: true)
     }
 }
 

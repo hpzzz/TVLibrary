@@ -21,7 +21,6 @@ class TrendingCell: UICollectionViewCell, SelfConfiguringCell {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.layer.borderWidth = 1.0
-        imageView.layer.borderColor = UIColor.gray.cgColor
         return imageView
     }()
     

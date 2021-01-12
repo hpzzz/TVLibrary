@@ -46,25 +46,22 @@ class HomeViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<SectionLayoutKind, TVShowPreview>? = nil
     var collectionView: UICollectionView! = nil
-    
     var networkManager: NetworkManager!
-    
     var trending: TrendingResult!
     var popular: PopularResult!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        downloadDetails()
+//        downloadDetails()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let _ = "73622f65fd4eb79f37924c199636fe02"
+        downloadDetails()
     }
     
     
     func downloadDetails(){
-        print("HAAAAALO")
         let dispatchGroup = DispatchGroup()
         networkManager = NetworkManager()
         
@@ -222,9 +219,19 @@ extension HomeViewController {
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let loadVC = DetailsViewController()
-        loadVC.modalPresentationStyle = .fullScreen
-        navigationController?.pushViewController(loadVC, animated: true)
+        let detailsViewController = DetailsViewController()
+        let section = SectionLayoutKind(rawValue: indexPath.section)!
+        switch section {
+        case .trending:
+            detailsViewController.tvShowID = trending.results[indexPath.row].id
+                    detailsViewController.modalPresentationStyle = .fullScreen
+                    navigationController?.pushViewController(detailsViewController, animated: true)
+        case .popular:
+            detailsViewController.tvShowID = popular.results[indexPath.row].id
+                    detailsViewController.modalPresentationStyle = .fullScreen
+                    navigationController?.pushViewController(detailsViewController, animated: true)
+        }
+
     }
 }
 
